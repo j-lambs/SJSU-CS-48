@@ -1,6 +1,16 @@
 import java.util.Scanner;
 
-class LostLineupOriginal {
+class LostLineup {
+    public static String getAnswer(int vals[]) {
+        int[] line = new int[vals.length];
+
+        for (int i = 0; i < vals.length; ++i) {
+            int ppl_btwn_cur_and_jimmy = vals[i];
+            line[ppl_btwn_cur_and_jimmy] = i + 2;
+        }
+        
+        return line.toString();
+    }
     static int[] build_line(Scanner my_scanner, int line_len) {
         int[] line = new int[line_len - 1];
 
