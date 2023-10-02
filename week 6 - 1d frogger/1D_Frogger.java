@@ -3,8 +3,8 @@ import java.util.HashSet;
 
 class One_D_Frogger {
     private static int[] readInBoardValues(int boardLength, Scanner myScanner) {
-        int[] myBoard = new int[boardLength];
-        for (int i = 0; i < boardLength; ++i) {
+        int[] myBoard = new int[boardLength + 1];
+        for (int i = 1; i <= boardLength; ++i) {
             myBoard[i] = myScanner.nextInt();
         }
         return myBoard;
@@ -12,17 +12,12 @@ class One_D_Frogger {
 
     private static int moveFroggy(int[] myBoard, int start, int magicNum) {
         HashSet<Integer> visitedTiles = new HashSet<Integer>();     // make set to track visited tiles
-        int numHops = 0;                                               // number of frog "hops"
+        int numHops = 0;                                            // number of frog "hops"
         int frogPointer = start;                                    // initialize frog pointer with starting location
 
         while (true) {
-            // condition 1 - WIN!
-            if (myBoard[frogPointer] == magicNum) {
-                System.out.println("magic");
-                return numHops;
-            }
             // condition 2 - frog falls off left end of board
-            else if (frogPointer < 0)
+            if (frogPointer <= 0)
             {
                 System.out.println("left");
                 return numHops;
@@ -32,13 +27,18 @@ class One_D_Frogger {
                 System.out.println("right");
                 return numHops;
             }
+            // condition 1 - WIN!
+            else if (myBoard[frogPointer] == magicNum) {
+                System.out.println("magic");
+                return numHops;
+            }
             // condition 4 - frog hops onto a square where the frog has been before, AKA Cycle
             else if (visitedTiles.contains(frogPointer)) {
                 System.out.println("cycle");
                 return numHops;
             }
             else {
-                visitedTiles.add(frogPointer); // add current tile frog is on to set
+                visitedTiles.add(frogPointer);          // add current tile frog is on to set
                 frogPointer += myBoard[frogPointer];    // move froggy
                 ++numHops;
             }
