@@ -8,7 +8,7 @@ class LostLineup {
             int ppl_btwn_cur_and_jimmy = vals[i];
             line[ppl_btwn_cur_and_jimmy] = i + 2;
         }
-        
+
         return line.toString();
     }
     static int[] build_line(Scanner my_scanner, int line_len) {
