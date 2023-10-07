@@ -55,8 +55,10 @@ class One_D_Frogger {
 
         // read in board values
         int[] board = readInBoardValues(n, scanner);
+        scanner.close();        // oops
 
         // now we have to actually move the frog
         System.out.println(moveFroggy(board, s, m));
+
     }
 }
