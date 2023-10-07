@@ -9,13 +9,13 @@ class roomPainting {
      * @return sizesOfferedList, a sorted array of the paint can sizes the store offers
      */
     private static int[] storeOfferedSizes(int n, Scanner myScanner) {
-        int[] sizesOfferedList = new int[n];
+        int[] sizesOfferedList = new int[n+1];
         for (int i = 0; i < n; ++i) {
             sizesOfferedList[i] = myScanner.nextInt();
             myScanner.nextLine();
         }
-        Arrays.sort(sizesOfferedList);
-        return sizesOfferedList;
+//        Arrays.sort(sizesOfferedList);
+        return sizesOfferedList; // save a nlogn
     }
 
     public static void main(String[] args) {
@@ -28,23 +28,26 @@ class roomPainting {
         int[] sizesOfferedList = storeOfferedSizes(numSizesOffered, scanner);
 
         // find paint wasted
-        int paintWasted = 0;
+        int paintWasted = 0, lastIndex = 0;
         for (int i = 0; i < numSizesNeeded; ++i) { // loop through paints Joe is looking for
             int nextSizeNeeded = scanner.nextInt();
             scanner.nextLine();
 
-            int indexAt = Arrays.binarySearch(sizesOfferedList, nextSizeNeeded); // O(nlogn)
-            // if nextSizeNeeded is not in sizesOfferedList, then add it to the list, and search again
-            if (indexAt < 0) {
-                int[] tempSizesOfferedList = Arrays.copyOf(sizesOfferedList, numSizesOffered+1); // O(n)
-                tempSizesOfferedList[numSizesOffered] = nextSizeNeeded;
-                Arrays.sort(tempSizesOfferedList);      // O(nlogn)
-                indexAt = Arrays.binarySearch(tempSizesOfferedList, nextSizeNeeded); // O(nlogn)
+            if (i == 0) {
+                sizesOfferedList[numSizesOffered] = nextSizeNeeded;
             }
-            paintWasted += sizesOfferedList[indexAt] - nextSizeNeeded;
-        } // loop should be at worst O(3nlogn + n)
+            else {
+                sizesOfferedList[lastIndex] = nextSizeNeeded;
+            }
+            Arrays.sort(sizesOfferedList); // nlogn
+            int indexAt = Arrays.binarySearch(sizesOfferedList, nextSizeNeeded); // nlogn
+            lastIndex = indexAt;
+
+            paintWasted += sizesOfferedList[indexAt + 1] - nextSizeNeeded;
+        } // loop should be at worst O(n*2nlogn)
 
         scanner.close();
         System.out.println(paintWasted);
     }
 }
+// what if you always add nextSizeNeeded to the list and binarysearch it
