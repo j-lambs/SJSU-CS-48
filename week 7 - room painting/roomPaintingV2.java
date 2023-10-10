@@ -1,35 +1,47 @@
 import java.util.Scanner;
 import java.util.Arrays;
 
-class roomPainting {
-
+public class roomPaintingV2 {
+    /**
+     * sort both lists.
+     * loop through JOe's paints, and only binary search for each STORE OFFERED bucket size once
+     * only binary search again once store size isn't useful to us anymore
+     * @param args
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        int paintWasted = 0;
         int numSizesOffered = scanner.nextInt();
         int numSizesNeeded = scanner.nextInt();
-
-        // not calling a function saves O(n) operation? hopefully helps
         int[] sizesOfferedList = new int[numSizesOffered];
+        int[] joesPaintList = new int[numSizesNeeded];
+
         for (int i = 0; i < numSizesOffered; ++i) {
             sizesOfferedList[i] = scanner.nextInt();
         }
         Arrays.sort(sizesOfferedList);
 
-        // find paint wasted
-        // code segment is O(m * logn)
-        int paintWasted = 0;
         for (int i = 0; i < numSizesNeeded; ++i) { // loop through paints Joe is looking for
-            int nextSizeNeeded = scanner.nextInt();
+            joesPaintList[i] = scanner.nextInt();
+        }
+        Arrays.sort(joesPaintList);
 
-            int indexAt = Arrays.binarySearch(sizesOfferedList, nextSizeNeeded); // logn
+        int nextSizeNeeded = 0; int j = 0; int indexAt = 0;
+        while (j < numSizesNeeded) {
+            nextSizeNeeded = joesPaintList[j];
+            if (nextSizeNeeded > sizesOfferedList[indexAt]) {
+                indexAt = Arrays.binarySearch(sizesOfferedList, nextSizeNeeded);
+            }
             if (indexAt < 0) {
                 indexAt = -1 * (indexAt + 1); // oops didn't read binarySearch documentation
             }
+            ++j;
+
             paintWasted += sizesOfferedList[indexAt] - nextSizeNeeded;
         }
 
         scanner.close();
         System.out.println(paintWasted);
-    } // total big O should be: O(n+nlogn + m*logn)
+    }
 }
