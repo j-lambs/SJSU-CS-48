@@ -1,7 +1,7 @@
-import java.util.Scanner;
 import java.util.Arrays;
-
+import java.util.Scanner;
 public class roomPaintingV2 {
+
     /**
      * sort both lists.
      * loop through JOe's paints, and only binary search for each STORE OFFERED bucket size once
@@ -27,21 +27,21 @@ public class roomPaintingV2 {
         }
         Arrays.sort(joesPaintList);
 
-        int nextSizeNeeded = 0; int j = 0; int indexAt = 0;
+        scanner.close();
+
+        int nextSize; int j = 0; int indexAt = 0;
         while (j < numSizesNeeded) {
-            nextSizeNeeded = joesPaintList[j];
-            if (nextSizeNeeded > sizesOfferedList[indexAt]) {
-                indexAt = Arrays.binarySearch(sizesOfferedList, nextSizeNeeded);
+            nextSize = joesPaintList[j];
+            if (nextSize > sizesOfferedList[indexAt]) {
+                indexAt = Arrays.binarySearch(sizesOfferedList, nextSize);
             }
             if (indexAt < 0) {
                 indexAt = -1 * (indexAt + 1); // oops didn't read binarySearch documentation
             }
+            paintWasted += sizesOfferedList[indexAt] - nextSize;
             ++j;
-
-            paintWasted += sizesOfferedList[indexAt] - nextSizeNeeded;
         }
 
-        scanner.close();
         System.out.println(paintWasted);
     }
 }
