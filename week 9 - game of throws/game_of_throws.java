@@ -2,11 +2,6 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class game_of_throws {
-    //TODO ntnaeaea tnai
-    //FIXME ntnte
-    // ntit
-    // nterofu
-
     /**
      * @param args
      */
