@@ -23,7 +23,6 @@ public class bard {
             arrBset[i].set(0,1,false);
         }
 
-//        int lastDayBardPresent = -1;
         BitSet daysBardPresent = new BitSet(e+1);
         for (int i = 1; i <= e; i++) { // loop through each evening
             int k = scanner.nextInt();  // num villagers present this evening
@@ -36,7 +35,6 @@ public class bard {
 
             if (tempBS.get(1)) { // bard is present
                 arrBset[i] = tempBS;
-//                lastDayBardPresent = i;
                 daysBardPresent.set(i, true);
             }
             //TODO: this case is where the problem is, needs to be more general solution
@@ -49,10 +47,8 @@ public class bard {
                         if (tempBS.intersects(arrBset[j])) { // current villagers know previous songs
                             arrBset[j].or(tempBS); // logic OR tempBitset & last day bard was present
                         }
-
                     }
                 }
-
             }
         }
 
@@ -64,5 +60,4 @@ public class bard {
             }
         }
     }
-
 }
