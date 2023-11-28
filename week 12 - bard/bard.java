@@ -37,9 +37,13 @@ public class bard {
                 arrBset[i] = t;
                 lastDayBardPresent = i;
             }
+            //TODO: this case is where the problem is, needs to be more general solution
             else { // bard not present
                 if (lastDayBardPresent >= 1) { // bard has been to any meetings
-                    arrBset[lastDayBardPresent].or(t); // logic OR tempBitset & last day bard was present
+                    if (t.intersects(arrBset[lastDayBardPresent])) { // current villagers know previous songs
+                        arrBset[lastDayBardPresent].or(t); // logic OR tempBitset & last day bard was present
+                    }
+
                 }
             }
         }
