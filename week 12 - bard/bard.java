@@ -23,28 +23,36 @@ public class bard {
             arrBset[i].set(0,1,false);
         }
 
-        int lastDayBardPresent = -1;
+//        int lastDayBardPresent = -1;
+        BitSet daysBardPresent = new BitSet(e+1);
         for (int i = 1; i <= e; i++) { // loop through each evening
             int k = scanner.nextInt();  // num villagers present this evening
 
-            BitSet t = new BitSet(n+1); // temp bitset
+            BitSet tempBS = new BitSet(n+1); // temp bitset
             for (int j = 0; j < k; j++) {
                 int villagerTemp = scanner.nextInt();
-                t.set(villagerTemp);
+                tempBS.set(villagerTemp);
             }
 
-            if (t.get(1)) { // bard is present
-                arrBset[i] = t;
-                lastDayBardPresent = i;
+            if (tempBS.get(1)) { // bard is present
+                arrBset[i] = tempBS;
+//                lastDayBardPresent = i;
+                daysBardPresent.set(i, true);
             }
             //TODO: this case is where the problem is, needs to be more general solution
+            // you need to share all songs villagers know, not just last song taught
             else { // bard not present
-                if (lastDayBardPresent >= 1) { // bard has been to any meetings
-                    if (t.intersects(arrBset[lastDayBardPresent])) { // current villagers know previous songs
-                        arrBset[lastDayBardPresent].or(t); // logic OR tempBitset & last day bard was present
-                    }
+                daysBardPresent.set(i, false);
+                for (int j = daysBardPresent.nextSetBit(0);
+                        j >= 0; j = daysBardPresent.nextSetBit(j+1)) {
+                    if (j >= 1) { // bard has been to any meetings
+                        if (tempBS.intersects(arrBset[j])) { // current villagers know previous songs
+                            arrBset[j].or(tempBS); // logic OR tempBitset & last day bard was present
+                        }
 
+                    }
                 }
+
             }
         }
 
