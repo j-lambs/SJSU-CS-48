@@ -1,5 +1,4 @@
-import java.util.Scanner;
-import java.util.HashMap;
+import java.util.*;
 public class blabberfish {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -12,12 +11,11 @@ public class blabberfish {
             dictionary.put(nextEntry[1], nextEntry[0]);
             temp = scanner.nextLine();
         }
-
         // translate
-        temp = scanner.nextLine();
-        while (!temp.equals("")) {
-            System.out.println(dictionary.getOrDefault(temp, "eh"));
+        while (scanner.hasNextLine()) {
+            boolean tbool = scanner.hasNextLine();
             temp = scanner.nextLine();
+            System.out.println(dictionary.getOrDefault(temp, "eh"));
         }
         scanner.close();
     }
